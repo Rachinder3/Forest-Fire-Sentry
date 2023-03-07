@@ -128,3 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 data/*
+
+
+# Specific project files to skip
+outputs/*
+inputs/*
