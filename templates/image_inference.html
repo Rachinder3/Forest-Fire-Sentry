@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{%block head%}
+
+<title>Inference on Images </title>
+
+{%endblock%}
+
+
+{%block body%}
+<div class="row">
+    <div class="col-1"></div>
+    
+    
+    <div class="col-7 py-8">
+       
+        
+        <form action="/image_inference" method="POST" enctype = "multipart/form-data">
+            
+            <!--Drop Area-->
+            
+            <!-- <div class="flex items-center justify-center w-full">
+                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Upload Image in JPG</p>
+                    </div>
+                    <input name = "file" id="dropzone-file" type="file" class="hidden" />
+                </label>
+            </div>  -->
+            
+            
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+            <input name = "file" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">JPG, PNG files allowerd</p>
+            <br>
+            
+
+            <label for="confidence" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confidence Threshold</label>
+            <input name = "confidence" id="confidence" type="range" min="0" max="100" value="35" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+
+            <br><br>
+
+
+
+            <p>Confidence: <span id="demo"></span></p>
+
+            <br><br>
+
+
+
+
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            
+        </form>
+        <br> 
+        
+        <hr>
+        <br>
+        <br>
+        
+        
+        <figure class="max-w-lg">
+            <img class="h-auto max-w-full rounded-lg" src="{{context['output']}}">
+        </figure>
+        
+        
+
+    </div>
+
+
+
+   
+
+    
+
+    <div class="col-1"></div>
+
+</div>
+
+{%endblock%}
+
+
+
+{%block script%}
+<script>
+    var slider = document.getElementById("confidence");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+    
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+    </script>
+
+{%endblock%}

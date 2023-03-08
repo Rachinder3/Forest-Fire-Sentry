@@ -133,3 +133,4 @@ data/*
 # Specific project files to skip
 outputs/*
 inputs/*
+static/outputs/*
