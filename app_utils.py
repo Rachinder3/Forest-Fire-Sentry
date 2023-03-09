@@ -4,7 +4,7 @@ from io import BytesIO
 import re, time, base64
 import cv2
 import matplotlib.pyplot as plt
-
+import time
 
 
 
@@ -65,6 +65,49 @@ def image_2_base64(path):
     except Exception as e:
         print(str(e))
         
+        
+# def play_video(video_path):
+    
+#     cap = cv2.VideoCapture(video_path)
+
+#     # cap = cv2.VideoCapture(0)
+
+#     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+#     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+
+
+#     if cap.isOpened() == False:
+#         print("Error file not found")
+
+
+#     while cap.isOpened():
+#         ret, frame = cap.read()
+
+#         if ret == True:
+#             time.sleep(1/10)
+    
+    
+    
+    
+    
+#             img = cv2.resize(frame,(1024,640))
+    
+    
+    
+    
+#             cv2.imshow('Camera feed', img)
+    
+#             if cv2.waitKey(10) & 0xFF == ord('q'):
+#                 break
+#         else:
+#             break
+#     cap.release()
+#     cv2.destroyAllWindows()
+        
+            
+        
+    
     
     
     

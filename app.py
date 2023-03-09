@@ -6,7 +6,50 @@ from app_utils import *
 
 from yolov5.detect import *
 
+def play_video(video_path):
+    try:
+        cap = cv2.VideoCapture(video_path)
 
+        # cap = cv2.VideoCapture(0)
+
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+
+
+        if cap.isOpened() == False:
+            print("Error file not found")
+
+
+        while cap.isOpened():
+            ret, frame = cap.read()
+    
+            if ret == True:
+                time.sleep(1/5)
+        
+        
+      
+        
+        
+                img = cv2.resize(frame,(1024,640))
+        
+        
+        
+        
+                cv2.imshow('Camera feed', img)
+        
+                if cv2.waitKey(10) & 0xFF == ord('q'):
+                    break
+            else:
+                break
+        cap.release()
+        cv2.destroyAllWindows()
+        
+            
+        
+    
+    except Exception as e:
+        print(str(e))
 
 ## initializations#########################################################
 app = Flask(__name__)
@@ -84,20 +127,28 @@ def index():
 def predictions_on_image():
     try:
         
-    
+        context = {}
+            
+        context["state"] = 0
+        context["output"] = ""
         
         
         if request.method == 'POST' or request.method== 'GET':
             
            #### save file
-            context = {}
+           
             
-            context["state"] = 0
-            context["output"] = ""
             try:
                 ###### Ingesting the File
+                
+                
+                
                 f = request.files['file']
+                
                 image_file_name = f.filename
+                
+                print(f.content_type)
+                
                 image_file_path = os.path.join(input_store_dir,image_file_name)
                 f.save(image_file_path)
                 ## enctype is multipart/form-data hence hence reques.form["confidence"] doesn't work. Hence using this approach
@@ -113,23 +164,47 @@ def predictions_on_image():
                 
                 print(os.path.exists(output_file_path))
                 print(output_file_path)
-                context["state"] = 1
-                context["output"] = output_file_path
                 
-                print("here")
-                # return send_file(output_file_path, as_attachment=True)
-                #return send_file(output_file_path)
+                
+                if 'image' in f.content_type:
+                    
+                
+                    context["state"] = 1
+                    context["output"] = output_file_path
+                    
+                    print("here image")
+                    # return send_file(output_file_path, as_attachment=True)
+                    #return send_file(output_file_path)
+                
+                    return render_template("image_inference.html", context=context)
             
+                elif 'video' in f.content_type:
+                    context["state"] = 2
+                    context["output"] = output_file_path
+                    
+                    
+                    # return send_file(output_file_path, as_attachment=True)
+                    #return send_file(output_file_path)
+                
+                    #return render_template("image_inference.html", context=context)
+                    
+                    play_video(video_path=output_file_path)
+                    return send_file(path_or_file=output_file_path,mimetype="video/mp4", as_attachment=True)
+                
+                    
                 return render_template("image_inference.html", context=context)
             
-                
-                
-                
             except Exception as e:
+                
                 print(str(e))
                 
-                return render_template("image_inference.html", context=context)
+                context = {}
             
+                context["state"] = 0
+                context["output"] = ""
+                
+                return render_template("image_inference.html", context=context)
+                #return f"test exception {context}"
             
             
             
