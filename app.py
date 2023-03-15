@@ -224,8 +224,8 @@ def predictions_on_image():
 #### main method
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    
+    #app.run(debug=True)
+    app.run()
     
 
 
