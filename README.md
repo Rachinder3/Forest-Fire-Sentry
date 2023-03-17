@@ -42,3 +42,6 @@ docker stop container_id
 
 #### Running setup.py
 python setup.py install
+
+
+Checking
